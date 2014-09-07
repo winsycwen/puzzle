@@ -1,0 +1,41 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+li {
+	list-style: none;
+}
+.box {
+	/*position: relative;*/
+	width: 1120px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+#image-box {
+	float: left;
+	width: 610px;
+	height: 390px;
+	margin-top: 50px;
+	border: 1px solid #ccc;
+}
+#image-box li {
+	height: 95px;
+	width: 120px;
+	float: left;
+	border: 1px dashed #ccc;
+}
+#image-piece {
+	float: left;
+	width: 500px;
+	height: 390px;
+	margin: 50px 0px 0px 0px;
+	border: 1px solid #ccc;
+	border-left: none;
+}
+#image-piece li {
+	position: absolute;
+	cursor: move;
+}	
+#image-piece img {
+	cursor: move;
+}

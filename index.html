@@ -5,58 +5,66 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Puzzle : 2013年12月份做的所谓意义上的拼图小游戏">
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-	<link rel="stylesheet" type="text/css" href="stylesheets/puzzleTwo.css" />
-	<script type="text/javascript" src="javascripts/puzzleTwo.js"></script>
+	<link rel="stylesheet" type="text/css" href="stylesheets/puzzle.css" />
+	<script type="text/javascript" src="javascripts/main.js"></script>
 	<title>Puzzle</title>
 </head>
 <body>
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/winsycwen/puzzle">View on GitHub</a>
-          <h1 id="project_title">Puzzle</h1>
-          <h2 id="project_tagline">2013年12月份做的所谓意义上的拼图小游戏</h2>
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/winsycwen/puzzle/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/winsycwen/puzzle/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
         <div id="box">
-            <div id="image-box">
-                <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
+            <h1 style="font-size: 40px;text-align: center;">Puzzle</h1>
+            <div class="timer_wrap">
+                <span class="clock"></span>
+                <span id="timer"></span>
+            </div>
+            <div id="image_wrap">
+<!--
+                <ul id="image_piece">
+                    <li style="background-position: 0% 0%;"></li>
+                    <li style="background-position: 25% 0%;"></li>
+                    <li style="background-position: 50% 0%;"></li>
+                    <li style="background-position: 75% 0%;"></li>
+                    <li style="background-position: 100% 0%;"></li>
+                    <li style="background-position: 0% 33.4%;"></li>
+                    <li style="background-position: 25% 33.4%;"></li>
+                    <li style="background-position: 50% 33.4%;"></li>
+                    <li style="background-position: 75% 33.4%;"></li>
+                    <li style="background-position: 100% 33.4%;"></li>
+                    <li style="background-position: 0% 66.8%;"></li>
+                    <li style="background-position: 25% 66.8%;"></li>
+                    <li style="background-position: 50% 66.8%;"></li>
+                    <li style="background-position: 75% 66.8%;"></li>
+                    <li style="background-position: 100% 66.8%;"></li>
+                    <li style="background-position: 0% 100%;"></li>
+                    <li style="background-position: 25% 100%;"></li>
+                    <li style="background-position: 50% 100%;"></li>
+                    <li style="background-position: 75% 100%;"></li>
+                    <li style="background-position: 100% 100%;"></li>
                 </ul>
-            </div>			
-            <div id="image-piece"></div>
+-->
+            </div>
+            <div class="operation_wrap" style="text-align: center;">
+                <input class="btn" id="start" type="button" value="开始">
+            </div>
         </div>
-        <div id="upload">
-            <input type="button" value="Start" id="start"/>
+<!--
+        <div class="opacity_wrap">
+            <div class="inner_wrap">
+                <div id="win">
+                    <span class="expression"></span>
+                    <p>好厉害吖~~~要不要再重来一遍吖？</p>
+                    <input class="btn" type="button" value="重来"/>                
+                </div>
+                <div id="fail">
+                    <span class="expression"></span>
+                    <p>啊~~不行，我要卷土重来！！</p>
+                    <input class="btn" type="button" value="重来">
+                </div>            
+            </div>    
         </div>
+-->
     </div>
-    <!-- FOOTER  -->
+    
     <div id="footer_wrap" class="outer">
       <footer class="inner">
         <p class="copyright">Puzzle maintained by <a href="https://github.com/winsycwen">winsycwen</a></p>

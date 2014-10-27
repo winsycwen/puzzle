@@ -3,8 +3,16 @@
 *   @creat: 2014/09/18 10:55
 *   @referer: http://stephen-young.me.uk/2013/01/05/maintainable-js-with-modules.html
 */
+function $(id) {
+    return id ? document.getElementById(id) : id;
+}
+function $$(className) {
+    if(typeof className === "string") {
+        console.log("1");
+    }
+}
 var EventUtil = {
-    addHandle: function(target, type, callback) {
+    addHandle: function (target, type, callback) {
         if(target.addEventListener) {
             target.addEventListener(type, callback, false);
         } else if(target.attachEvent) {
@@ -13,7 +21,7 @@ var EventUtil = {
             target["on"+type] = callback;
         }
     },
-    removeHandle: function(target, type, callback) {
+    removeHandle: function (target, type, callback) {
         if(target.removeEventListener) {
             target.removeEventListener(type, callback, false);
         } else if(target.detachEvent) {
@@ -21,25 +29,58 @@ var EventUtil = {
         } else {
             target["on" + type] = callback;
         }
+    },
+    getEvent: function (event) {
+        return event ? event : window.event;
+    },
+    getTarget: function (event) {
+        return event.target || event.srcElement;
+    },
+    preventDefault: function(event){
+        if(event.preventDefault) {
+            event.preventDefault();
+        } else {
+            event.returnValue = false;
+        }
+    },
+    stopPropagation: function(event) {
+        if(event.stopPropagation) {
+            event.stopPropagation();
+        } else {
+            event.cancelBubble = true;
+        }
     }
 };
-var Clock = {
-    timer: {},
-    interval: 1000,
-    showClock: function(time) {
-        var clock = document.getElementById("timer");
-        var times = time/this.interval;
-        var index = 1;
-        timer = setTimeout(function(){
-            if(index === times) {
-                console.log("1");
-                timer = null;
+var Clock = (function(){
+    var timer = {},
+        interval = 100,
+        seconds = 0,
+        minutes = 0;
+    var start = function(time, flag) {
+        if(flag == "up") {} 
+        else {
+            if(time > 0) {
+                setInterval(function(){
+                    if(minutes < time) {
+                        seconds++;
+                        if(seconds%60 == 0) {
+                            seconds = 0;
+                            minutes ++;
+                        }
+                        console.log("1");
+                        $("timer").nodeValue = minutes + ":" + seconds;
+                    }
+                },interval);
             }
-            index ++;
-            console.log("2");
-        },this.interval);
-    }
-};
+        }
+    };
+    return {
+        //暴露在外的接口
+        start: function(time, flag) {
+            start(time, flag);
+        }
+    };
+})();
 var myPuzzle = myPuzzle || {};
 if(myPuzzle.puzzle) {
     console.log("myPuzzle.puzzle is already being used.");
@@ -51,6 +92,7 @@ if(myPuzzle.puzzle) {
             readyTime = 3,   //以秒为单位
             timer;
         var createList = function(target) {
+            //初始化图片列表
             var total = columns * rows,
                 fragment = document.createDocumentFragment(),
                 wrap = document.createElement("ul"),
@@ -79,7 +121,7 @@ if(myPuzzle.puzzle) {
             }
         };
         var start = function() {
-            Clock.showClock(readyTime);
+            Clock.start(readyTime,"down");
         };
         return {
             /**
@@ -90,12 +132,12 @@ if(myPuzzle.puzzle) {
             */
             init: function(target) {
                 createList(target);
-                EventUtil.addHandle(document.getElementById("start"), "click", clock("ready"));
+                EventUtil.addHandle($("start"), "click", clock("ready"));
             }
         };
     })();
 }
 window.onload = function() {
-    var target = document.getElementById("image_wrap");
+    var target = $("image_wrap");
     myPuzzle.puzzle.init(target);
 };

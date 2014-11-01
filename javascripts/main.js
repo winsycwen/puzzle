@@ -12,22 +12,22 @@ function $$(className) {
     }
 }
 var EventUtil = {
-    addHandle: function (target, type, callback) {
-        if(target.addEventListener) {
-            target.addEventListener(type, callback, false);
-        } else if(target.attachEvent) {
-            target.attachEvent("on" + type, callback);
+    addHandle: function (element, type, handler) {
+        if(element.addEventListener) {
+            element.addEventListener(type, handler, false);
+        } else if(element.attachEvent) {
+            element.attachEvent("on" + type, handler);
         } else {
-            target["on"+type] = callback;
+            element["on"+type] = handler;
         }
     },
-    removeHandle: function (target, type, callback) {
-        if(target.removeEventListener) {
-            target.removeEventListener(type, callback, false);
-        } else if(target.detachEvent) {
-            target.detachEvent("on" + type, callback);
+    removeHandle: function (element, type, handler) {
+        if(element.removeEventListener) {
+            element.removeEventListener(type, handler, false);
+        } else if(element.detachEvent) {
+            element.detachEvent("on" + type, handler);
         } else {
-            target["on" + type] = callback;
+            element["on" + type] = handler;
         }
     },
     getEvent: function (event) {
@@ -51,36 +51,49 @@ var EventUtil = {
         }
     }
 };
-var Clock = (function(){
-    var timer = {},
-        interval = 100,
-        seconds = 0,
-        minutes = 0;
-    var start = function(time, flag) {
-        if(flag == "up") {} 
-        else {
-            if(time > 0) {
-                setInterval(function(){
-                    if(minutes < time) {
-                        seconds++;
-                        if(seconds%60 == 0) {
-                            seconds = 0;
-                            minutes ++;
-                        }
-                        console.log("1");
-                        $("timer").nodeValue = minutes + ":" + seconds;
-                    }
-                },interval);
-            }
+function Clock () {
+    this.timer = null;
+    this.interval = 1000;
+    this.seconds = 0;
+    this.minutes = 0;
+    this.startTime = 0;
+    this.endTime = 0;
+}
+Clock.prototype = {
+    constructor: Clock,
+    init: function(time) {
+        var that = this,
+            date = new Date();
+        if(typeof time === "number") {
+            that.startTime = date.getTime();
+            that.endTime = time*1000 + that.startTime;
+            console.log(that.startTime,that.endTime);
         }
-    };
-    return {
-        //暴露在外的接口
-        start: function(time, flag) {
-            start(time, flag);
+    },
+    ready: function(time){
+        //倒计时功能，未完善
+        var that = this,
+            date = new Date(),
+            currentTime = date.getTime();
+        that.init(time);
+        if(that.startTime < that.endTime) {
+            $("timer").innerHTML = currentTime - that.startTime;
+            that.ready();
         }
-    };
-})();
+//            that.timer = setInterval(function(){
+//                that.seconds++;
+//                if(that.seconds%60 == 0) {
+//                    that.seconds = 0;
+//                    that.minutes ++;
+//                }
+//                $("timer").innerHTML = that.minutes + ":" + that.seconds;
+//                if(that.seconds == that.time) {
+//                   that.timer = null; 
+//                }
+//            },interval);
+//        }
+    }
+};
 var myPuzzle = myPuzzle || {};
 if(myPuzzle.puzzle) {
     console.log("myPuzzle.puzzle is already being used.");
@@ -89,8 +102,7 @@ if(myPuzzle.puzzle) {
         var pieceBox = "image_piece",
             columns = 5,
             rows = 4,
-            readyTime = 3,   //以秒为单位
-            timer;
+            readyTime = 3;   //以秒为单位;
         var createList = function(target) {
             //初始化图片列表
             var total = columns * rows,
@@ -110,19 +122,6 @@ if(myPuzzle.puzzle) {
             wrap.appendChild(fragment);
             target.appendChild(wrap);
         };
-        var clock = function(flag) {
-            switch(flag) {
-                case "ready": 
-                    //3秒后执行
-                    timer = setTimeout(start, readyTime*1000);
-                    break;
-                case "start": break;
-                case "end": break;
-            }
-        };
-        var start = function() {
-            Clock.start(readyTime,"down");
-        };
         return {
             /**
             *   init the puzzle list
@@ -132,7 +131,16 @@ if(myPuzzle.puzzle) {
             */
             init: function(target) {
                 createList(target);
-                EventUtil.addHandle($("start"), "click", clock("ready"));
+                //点击开始按钮，计时3秒。之后将打乱拼图的顺序。
+//                var btn = document.getElementById("start");
+//                btn.addEventListener("click", function(){
+//                    var clock = new Clock();
+//                    clock.ready(readyTime);
+//                },false);
+                EventUtil.addHandle($("start"), "click", function(){
+                    var clock = new Clock();
+                    clock.ready(readyTime);
+                });
             }
         };
     })();

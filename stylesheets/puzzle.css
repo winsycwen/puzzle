@@ -17,11 +17,11 @@ li {
 .clock {
     width: 24px;
     height: 24px;
-    display: block;
+    display: inline-block;
     background: url("../images/clock.png") no-repeat;
 }
 #timer {
-    display: block;
+    display: inline-block;
     width: 100px;
 }
 #image_wrap {
@@ -32,14 +32,17 @@ li {
 #image_piece {
     width: 610px;
     margin: 0 auto;
+    padding-left: 0px;
     overflow: hidden;
 }
 #image_piece li {
     display: block;
     float: left;
+    position: relative;
     width: 120px;
     height: 95px;
     background: url("../images/image.png") no-repeat;
+    cursor: move;
 }
 .opacity_wrap {
     position: absolute;
